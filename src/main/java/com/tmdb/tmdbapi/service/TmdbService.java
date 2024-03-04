@@ -21,7 +21,14 @@ public class TmdbService {
 
   public MoviePageResponse getMovieByName(String bearerToken, String movieName,
       Integer page, String language) {
-    return tmdbClient.getMovieByName(bearerToken, movieName, page, language);
+
+    MoviePageResponse moviePageResponse = tmdbClient.getMovieByName(bearerToken,
+        movieName, page, language);
+
+    if (moviePageResponse.getResults().isEmpty()) {
+      throw new NotFoundException("Movie not found.");
+    }
+    return moviePageResponse;
   }
 
   public MoviePageResponse getMoviesByGenre(String bearerToken,
