@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  tmdb-api:
+    hostname: tmdb-api
+    image: ultr444/tmdb-api-java:latest
+    environment:
+      - SPRING_PROFILES_ACTIVE=production
+    ports:
+      - "8080:8080"
+
+  nginx:
+    image: nginx:latest
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      - tmdb-api
+    ports:
+      - "9999:9999"
+
+networks:
+  tmdb-network:
+    driver: bridge
